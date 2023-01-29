@@ -1,0 +1,6 @@
+name: GPIO4
+# DHT11, DHT12, DHT22 or AM2302
+sensor: DHT22
+gpio_pin: 1998
+listen: ":9420"
+
