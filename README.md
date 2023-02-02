@@ -8,10 +8,12 @@ This application reads temperature and humidity values of a DHTxx sensor (DHT11,
 
 ### Public Container Image
 
-To run the public available image:
+To access the DHTxx sensor GPIO interface we need write access to the `/sys` filesystem. This is only possible if the container runs in privileged mode.
+
+The command to run the public available image would be:
 
 ```bash
-podman run --rm -v <path>/config.yaml:/config.yaml registry.opensuse.org/home/kukuk/containerfile/dht2prometheus:latest
+podman run --privileged -p 9420:9420 -v <path>/config.yaml:/config.yaml registry.opensuse.org/home/kukuk/containerfile/dht2prometheus:latest
 ```
 
 You can replace `podman` with `docker` without any further changes.
