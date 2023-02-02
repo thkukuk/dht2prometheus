@@ -15,12 +15,13 @@
 package dht2Prometheus
 
 import (
-	"log"
         "net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	logger "github.com/d2r2/go-logger"
+	log "github.com/thkukuk/dht2prometheus/pkg/logger"
         "github.com/prometheus/client_golang/prometheus"
         "github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -40,15 +41,15 @@ var (
 	Version = "unreleased"
 	Quiet   = false
 	Verbose = false
-	logger  = log.New(os.Stdout, "", log.LstdFlags)
-	logerr  = log.New(os.Stderr, "", log.LstdFlags)
 	Config ConfigType
 )
 
 func RunServer() {
 	if !Quiet {
-		logger.Printf("DHT to Prometheus Exporter (dht2prometheus) %s is starting...\n", Version)
+		log.Infof("DHT to Prometheus Exporter (dht2prometheus) %s is starting...\n", Version)
 	}
+
+	logger.ChangePackageLogLevel("dht", logger.InfoLevel)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
@@ -56,7 +57,9 @@ func RunServer() {
 
 	go func() {
 		<-quit
-		logger.Print("Terminated via Signal. Shutting down...")
+		if !Quiet {
+			log.Info("Terminated via Signal. Shutting down...")
+		}
 		os.Exit(0)
 	}()
 
@@ -67,10 +70,10 @@ func RunServer() {
 	collector := newCollector(Config)
 	prometheus.MustRegister(collector)
         http.Handle("/metrics", promhttp.HandlerFor(prometheus.DefaultGatherer, promhttp.HandlerOpts{
-                ErrorLog: logerr,
+                // XXX ErrorLog: log,
         }))
 	if !Quiet {
-		logger.Printf("Starting http server on %s", Config.Listen)
+		log.Infof("Starting http server on %s", Config.Listen)
 	}
-        logerr.Fatal(http.ListenAndServe(Config.Listen, nil))
+        log.Fatal(http.ListenAndServe(Config.Listen, nil))
 }

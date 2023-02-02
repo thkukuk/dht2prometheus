@@ -17,11 +17,11 @@ package main
 import (
 	"fmt"
         "io/ioutil"
-        "log"
 	"os"
 
 	"gopkg.in/yaml.v3"
 
+	log "github.com/thkukuk/dht2prometheus/pkg/logger"
 	"github.com/spf13/cobra"
 	"github.com/thkukuk/dht2prometheus/pkg/dht2prometheus"
 )
@@ -73,7 +73,7 @@ func runMqttExporterCmd(cmd *cobra.Command, args []string) {
 	var err error
 
 	if !dht2Prometheus.Quiet {
-		log.Printf("Read yaml config %q\n", configFile)
+		log.Infof("Read yaml config %q\n", configFile)
 	}
 	dht2Prometheus.Config, err = read_yaml_config(configFile)
 	if err != nil {

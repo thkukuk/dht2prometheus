@@ -18,6 +18,7 @@ import (
 	"os"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/thkukuk/go-dht"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -32,7 +33,7 @@ type Collector struct {
 
 func newCollector(config ConfigType) *Collector {
 	if Verbose {
-		logger.Printf("Creating prometheus collector for sensor %q...",
+		log.Debugf("Creating prometheus collector for sensor %q...",
 			Config.Name)
 	}
 
@@ -45,7 +46,7 @@ func newCollector(config ConfigType) *Collector {
 	} else if strings.ToLower(config.Sensor) == "dht12" {
                 sensorType = dht.DHT12
         } else {
-		logerr.Fatalf("ERROR: Unknown sensor type %q",
+		log.Fatalf("ERROR: Unknown sensor type %q",
 			config.Sensor)
 	}
 
@@ -74,13 +75,13 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	temperature, humidity, _, err :=
 		dht.ReadDHTxxWithRetry(c.sensorType, c.gpioPin, false, 10)
 	if err != nil {
-		logerr.Printf("Error reading sensor: %v", err)
+		log.Errorf("Error reading sensor: %v", err)
 		return
         }
 
 	hostname, err := os.Hostname()
 	if err != nil {
-		logerr.Printf("Failed to get hostname: %v", err)
+		log.Errorf("Failed to get hostname: %v", err)
 	}
 	ch <- prometheus.MustNewConstMetric(c.temperatureMetric, prometheus.CounterValue, float64(temperature), c.name, hostname)
 	ch <- prometheus.MustNewConstMetric(c.humidityMetric, prometheus.CounterValue, float64(humidity), c.name, hostname)
