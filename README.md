@@ -60,7 +60,7 @@ name: "Living room"
 sensor: DHT22
 # Required: GPIO pin on which the device is connected. This depends on
 # the kernel and configuration
-gpio_pin: 17
+gpio_pin: 2011
 # Optional: address and port to listen on, default is port 9420
 listen: ":9420"
 # Optional: temperature offset
