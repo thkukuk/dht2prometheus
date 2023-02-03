@@ -27,6 +27,8 @@ type Collector struct {
 	name              string
 	sensorType        dht.SensorType
 	gpioPin           int
+	offsetTemperature float32
+	offsetHumidity    float32
 	temperatureMetric *prometheus.Desc
 	humidityMetric    *prometheus.Desc
 }
@@ -54,6 +56,8 @@ func newCollector(config ConfigType) *Collector {
 		name: config.Name,
 		sensorType: sensorType,
 		gpioPin: config.Pin,
+		offsetTemperature: config.TemperatureOffset,
+		offsetHumidity: config.HumidityOffset,
 		temperatureMetric: prometheus.NewDesc("dht_temperature",
 			"Temperature (Celsius) measured by the sensor",
 			[]string{"dht_name", "hostname"}, nil,
@@ -83,6 +87,10 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	if err != nil {
 		log.Errorf("Failed to get hostname: %v", err)
 	}
+
+	temperature = temperature + c.offsetTemperature
+	humidity = humidity + c.offsetHumidity
+
 	ch <- prometheus.MustNewConstMetric(c.temperatureMetric, prometheus.CounterValue, float64(temperature), c.name, hostname)
 	ch <- prometheus.MustNewConstMetric(c.humidityMetric, prometheus.CounterValue, float64(humidity), c.name, hostname)
 }

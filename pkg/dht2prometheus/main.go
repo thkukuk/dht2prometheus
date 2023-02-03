@@ -35,6 +35,8 @@ type ConfigType struct {
 	Sensor                 string `yaml:"sensor"`
 	Pin                    int `yaml:"gpio_pin"`
 	Listen                 string `yaml:"listen"`
+	TemperatureOffset      float32 `yaml:"temperature_offset,omitempty"`
+	HumidityOffset         float32 `yaml:"humidity_offset,omitempty"`
 }
 
 var (

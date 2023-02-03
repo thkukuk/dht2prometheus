@@ -54,13 +54,17 @@ By default `dht2prometheus` looks for the file `config.yaml` in the local direct
 Here is my configuration file, which I use for DHT22 connected on a Raspberry Pi 3 running [openSUSE MicroOS](https://microos.opensuse.org)
 
 ```yaml
-# Descriptive name of the sensor provides as label in the metric
+# Descriptive name of the sensor provided as label in the metric
 name: "Living room"
-# Sensor type, valid values are DHT11, DHT12, DHT22 or AM2302
+# Required: sensor type, valid values are DHT11, DHT12, DHT22 or AM2302
 sensor: DHT22
-# GPIO pin on which the device is connected. This depends on the kernel and
-# configuration
-gpio_pin: 22
-# Address and port to listen on
+# Required: GPIO pin on which the device is connected. This depends on
+# the kernel and configuration
+gpio_pin: 17
+# Optional: address and port to listen on, default is port 9420
 listen: ":9420"
+# Optional: temperature offset
+#temperature_offset: -1.7
+# Optional: humidity offset
+#humidity_offset: +0.3
 ```

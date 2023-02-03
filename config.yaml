@@ -1,6 +1,13 @@
-name: GPIO4
-# DHT11, DHT12, DHT22 or AM2302
+# Descriptive name of the sensor provided as label in the metric
+name: "Living room"
+# Required: sensor type, valid values are DHT11, DHT12, DHT22 or AM2302
 sensor: DHT22
-gpio_pin: 1998
+# Required: GPIO pin on which the device is connected. This depends on
+# the kernel and configuration
+gpio_pin: 17
+# Optional: address and port to listen on, default is port 9420
 listen: ":9420"
-
+# Optional: temperature offset
+#temperature_offset: -1.7
+# Optional: humidity offset
+#humidity_offset: +0.3
