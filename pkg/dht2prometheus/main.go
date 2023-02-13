@@ -21,7 +21,7 @@ import (
 	"syscall"
 
 	logger "github.com/d2r2/go-logger"
-	log "github.com/thkukuk/dht2prometheus/pkg/logger"
+	log "github.com/thkukuk/mqtt-exporter/pkg/logger"
         "github.com/prometheus/client_golang/prometheus"
         "github.com/prometheus/client_golang/prometheus/promhttp"
 )

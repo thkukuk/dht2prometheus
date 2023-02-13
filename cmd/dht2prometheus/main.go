@@ -21,7 +21,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	log "github.com/thkukuk/dht2prometheus/pkg/logger"
+	log "github.com/thkukuk/mqtt-exporter/pkg/logger"
 	"github.com/spf13/cobra"
 	"github.com/thkukuk/dht2prometheus/pkg/dht2prometheus"
 )

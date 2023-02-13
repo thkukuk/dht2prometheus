@@ -18,7 +18,7 @@ import (
 	"os"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
+	log "github.com/thkukuk/mqtt-exporter/pkg/logger"
 	"github.com/thkukuk/go-dht"
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -36,7 +36,7 @@ type Collector struct {
 func newCollector(config ConfigType) *Collector {
 	if Verbose {
 		log.Debugf("Creating prometheus collector for sensor %q...",
-			Config.Name)
+			config.Name)
 	}
 
 	var sensorType dht.SensorType
