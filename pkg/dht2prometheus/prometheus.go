@@ -91,6 +91,6 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	temperature = temperature + c.offsetTemperature
 	humidity = humidity + c.offsetHumidity
 
-	ch <- prometheus.MustNewConstMetric(c.temperatureMetric, prometheus.CounterValue, float64(temperature), c.name, hostname)
-	ch <- prometheus.MustNewConstMetric(c.humidityMetric, prometheus.CounterValue, float64(humidity), c.name, hostname)
+	ch <- prometheus.MustNewConstMetric(c.temperatureMetric, prometheus.GaugeValue, float64(temperature), c.name, hostname)
+	ch <- prometheus.MustNewConstMetric(c.humidityMetric, prometheus.GaugeValue, float64(humidity), c.name, hostname)
 }
